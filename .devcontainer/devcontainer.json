@@ -12,5 +12,9 @@
             ]
         }
     },
-    "postCreateCommand": "if [ ! -f .env ]; then echo \"AIRFLOW_UID=$(id -u)\" > .env; fi"
+    "postCreateCommand": [
+        "bash",
+        "-c",
+        "mkdir -p ./dags ./logs ./plugins && if [ ! -f .env ]; then echo \"AIRFLOW_UID=$(id -u)\" > .env; fi"
+  ]
 }

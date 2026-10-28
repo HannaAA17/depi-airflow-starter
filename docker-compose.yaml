@@ -77,7 +77,7 @@ x-airflow-common:
     AIRFLOW__CORE__TEST_CONNECTION: 'Enabled'
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     # set SQL_ALCHEMY_CONN using env vars
-    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://${PGUSER:-airflow}:${PGPASSWORD}@${PGHOST:-postgres}:${PGPORT:-5432}/${PGDATABASE}"
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://${PGUSER:-airflow}:${PGPASSWORD:-airflow}@${PGHOST:-host.docker.internal}:${PGPORT:-5432}/${PGDATABASE:-airflow}"
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server
@@ -104,8 +104,8 @@ services:
     image: postgres:16
     environment:
       POSTGRES_USER: ${PGUSER:-airflow}
-      POSTGRES_PASSWORD: ${PGPASSWORD}
-      POSTGRES_DB: ${PGDATABASE}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-airflow}
+      POSTGRES_DB: ${PGDATABASE:-airflow}
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
     healthcheck:

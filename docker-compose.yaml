@@ -75,6 +75,7 @@ x-airflow-common:
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__CORE__TEST_CONNECTION: 'Enabled'
+    AIRFLOW__API__BASE_URL: "https://${CODESPACE_NAME}-${AIRFLOW_PORT:-8080}.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}/"
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     # set SQL_ALCHEMY_CONN using env vars
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://${PGUSER:-airflow}:${PGPASSWORD:-airflow}@${PGHOST:-host.docker.internal}:${PGPORT:-5432}/${PGDATABASE:-airflow}"
@@ -266,8 +267,8 @@ services:
       <<: *airflow-common-env
       _AIRFLOW_DB_MIGRATE: 'true'
       _AIRFLOW_WWW_USER_CREATE: 'true'
-      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
-      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
+      _AIRFLOW_WWW_USER_USERNAME: ${AIRFLOW_USERNAME:-admin}
+      _AIRFLOW_WWW_USER_PASSWORD: ${AIRFLOW_PASSWORD:-depi}
       _PIP_ADDITIONAL_REQUIREMENTS: ''
     user: "0:0"
 
